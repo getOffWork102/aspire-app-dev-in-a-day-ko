@@ -184,6 +184,13 @@ csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 
 #### Naming styles ####
+
+# IDE0320: Make anonymous function static
+csharp_prefer_static_anonymous_function = true
+
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = none
+
 [*.{cs,vb}]
 
 # Naming rules
