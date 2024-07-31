@@ -20,7 +20,7 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
       AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
-      AZURE_TEMPLATE_NAME: 'YOUR_TEMPLATE_NAME' # 템플릿 이름을 정확하게 지정하세요.
+      AZURE_TEMPLATE_NAME: 'model-gpt4o-20240513' # 템플릿 이름을 정확하게 지정하세요.
     steps:
       - name: Checkout
         uses: actions/checkout@v4
