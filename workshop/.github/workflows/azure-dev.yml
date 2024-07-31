@@ -1,20 +1,13 @@
+
 on:
   workflow_dispatch:
   push:
-    # Run when commits are pushed to mainline branch (main or master)
-    # Set this to the mainline branch you are using
     branches:
       - main
       - master
-
     paths:
       - 'workshop/**/*'
 
-# GitHub Actions workflow to deploy to Azure using azd
-# To configure required secrets for connecting to Azure, simply run `azd pipeline config`
-
-# Set up permissions for deploying with secretless Azure federated credentials
-# https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#set-up-azure-login-with-openid-connect-authentication
 permissions:
   id-token: write
   contents: read
@@ -76,6 +69,12 @@ jobs:
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Initialize azd project
+        run: |
+          pushd ./workshop
+          azd init --template ${TEMPLATE_NAME} --environment ${{ env.AZURE_ENV_NAME }} --location ${{ env.AZURE_LOCATION }}
+          popd
 
       - name: Provision Infrastructure
         run: |
