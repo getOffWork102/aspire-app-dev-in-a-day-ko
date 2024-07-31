@@ -1,20 +1,12 @@
 on:
   workflow_dispatch:
   push:
-    # Run when commits are pushed to mainline branch (main or master)
-    # Set this to the mainline branch you are using
     branches:
       - main
       - master
-
     paths:
       - 'workshop/**/*'
 
-# GitHub Actions workflow to deploy to Azure using azd
-# To configure required secrets for connecting to Azure, simply run `azd pipeline config`
-
-# Set up permissions for deploying with secretless Azure federated credentials
-# https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#set-up-azure-login-with-openid-connect-authentication
 permissions:
   id-token: write
   contents: read
@@ -28,6 +20,7 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
       AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      AZURE_TEMPLATE_NAME: 'YOUR_TEMPLATE_NAME' # 템플릿 이름을 정확하게 지정하세요.
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,7 +73,7 @@ jobs:
       - name: Initialize Project
         run: |
           pushd ./workshop
-          azd init --no-prompt
+          azd init --template ${{ env.AZURE_TEMPLATE_NAME }} --environment ${{ env.AZURE_ENV_NAME }}
           popd
 
       - name: Provision Infrastructure
